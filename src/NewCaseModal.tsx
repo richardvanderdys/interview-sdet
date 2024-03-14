@@ -15,8 +15,14 @@ const NewCaseModal: React.FC = () => {
   const [patientName, setPatientName] = useState('');
   const [visitDetails, setVisitDetails] = useState('');
   const { addCase } = useContext(CaseContext);
+  const [error, setError] = useState(false);
 
   const handleSubmit = () => {
+    if (!patientName) {
+      setError(true);
+      return;
+    }
+
     const newCase: Case = {
       id: new Date().getTime(),
       patientName,
@@ -45,6 +51,8 @@ const NewCaseModal: React.FC = () => {
         <DialogContent>
           <TextField
             autoFocus
+            error={error}
+            helperText={error ? 'This field is required' : ''}
             margin="dense"
             label="Patient Name"
             fullWidth
